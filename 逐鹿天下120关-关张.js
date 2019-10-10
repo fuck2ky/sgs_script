@@ -24,7 +24,7 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
     // 发动业炎
     if (spellClassName == 'YeYanJL') {
         var targetSeatIndex = getTargetSeatIndex();
-        PubGsCUseSpell.SendUseSpell(0, 988, [targetSeatIndex,(targetSeatIndex-1)%3+2]);
+        PubGsCUseSpell.SendUseSpell(0, 988, [targetSeatIndex]);
         return;
     }
     // 非本人取消求桃
@@ -113,7 +113,7 @@ function dealCards() {
 
     var targetSeatIndex = getTargetSeatIndex();
     // 剩余可出杀不足时杀荀彧补牌
-    if (cardList[0].length + cardList[1].length/2 + cardList[2].length <= 1) {
+    if (cardList[0].length + (cardList[1].length >= 2 ? 1 : 0) + cardList[2].length <= 1) {
         targetSeatIndex = 5;
         var cards = [];
         if (cardList[1].length >=2 ) {
