@@ -198,6 +198,6 @@ var startInterval = setInterval(function () {
         //出杀次数清零
         shaCount = 0;
     }
-}, 1000)
+}, 500)
 // 停止下一局
 // clearInterval(startInterval);
