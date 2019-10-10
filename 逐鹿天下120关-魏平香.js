@@ -9,6 +9,13 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
     var okSkillList = ['TalentSkill', 'JiangLingSkill', 'KuangGu2016']
     if (okSkillList.indexOf(spellClassName) > -1) {
         SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_OK);
+        return;
+    }
+    // 发动业炎
+    if (spellClassName == 'YeYanJL') {
+        var targetSeatIndex = getTargetSeatIndex();
+        PubGsCUseSpell.SendUseSpell(0, 988, [targetSeatIndex,(targetSeatIndex-1)%3+2]);
+        return;
     }
     // 非本人取消求桃
     var LastUseTargetFromServer = t.Spell.LastUseTargetFromServer;
@@ -84,12 +91,8 @@ function qimou() {
 }
 
 var shaCount = 0 //出杀次数
-// 魏延出牌逻辑
-function dealCards() {
-    var manager = SceneManager.GetInstance().CurrentScene.manager;
-    if (!manager || !manager.seats || !manager.selfSeatUI.cardContainer.SelectContext) {
-        return;
-    }
+// 获取要杀的人
+function getTargetSeatIndex() {
     var seats = SceneManager.GetInstance().CurrentScene.manager.seats;
     var targetSeatIndex = 2;
     var excludeNames = ['曹植','荀攸','曹叡','曹冲','满宠','王异'] //威胁程度由小到大
@@ -100,16 +103,23 @@ function dealCards() {
     }
     //都在黑名单里，挑选威胁小的
     if (targetSeatIndex == 5) {
-        outer:
         for (var i = 0; i < excludeNames.length; i++) {
             for (var targetSeatIndex = 2; targetSeatIndex < 5; targetSeatIndex++) {
                 if (seats[targetSeatIndex].SeatName == excludeNames[i]) {
-                    break outer;
+                    return targetSeatIndex;
                 }
             }
         }
     }
-    targetSeatIndex = targetSeatIndex == 5 ? 2 : targetSeatIndex;
+    return targetSeatIndex;
+}
+// 魏延出牌逻辑
+function dealCards() {
+    var manager = SceneManager.GetInstance().CurrentScene.manager;
+    if (!manager || !manager.seats || !manager.selfSeatUI.cardContainer.SelectContext) {
+        return;
+    }
+    var targetSeatIndex = getTargetSeatIndex();
     var selfSeat = SceneManager.GetInstance().CurrentScene.manager.SelfSeat;
     if (!selfSeat.skillUseInRound.Maps[296]) {
         // 发动奇谋

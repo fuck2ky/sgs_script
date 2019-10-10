@@ -14,6 +14,11 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
             SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_OK);
         }
     }
+    // 发动业炎
+    if (spellClassName == 'YeYanJL') {
+        PubGsCUseSpell.SendUseSpell(0, 988, [2,3]);
+        return;
+    }
     // 必然触发技能列表
     var okSkillList = ['JiangLingSkill']
     if (okSkillList.indexOf(spellClassName) > -1) {
