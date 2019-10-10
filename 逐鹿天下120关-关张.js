@@ -80,7 +80,7 @@ function dealCards() {
     // 将手牌分组，0不含杀的红色牌 1不含杀的黑色牌 2所有的杀
     var cardList = [[],[],[]];
     for (var card of handCards) {
-        if (card.cardName.indexOf('杀') != -1) {
+        if (['杀','火杀','雷杀'].indexOf(card.cardName) != -1) {
             cardList[2].push(card);
             continue;
         }
@@ -113,7 +113,7 @@ function dealCards() {
 
     var targetSeatIndex = getTargetSeatIndex();
     // 剩余可出杀不足时杀荀彧补牌
-    if (cardList[0].length + cardList[1].length + cardList[2].length <= 1) {
+    if (cardList[0].length + cardList[1].length/2 + cardList[2].length <= 1) {
         targetSeatIndex = 5;
         var cards = [];
         if (cardList[1].length >=2 ) {
