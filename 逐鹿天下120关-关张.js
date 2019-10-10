@@ -100,10 +100,10 @@ function dealCards() {
         if (cardList[1].length >=2 ) {
             // 黑色牌数量大于2
             cards = [cardList[1][0].cardId, cardList[1][1].cardId];
-        } else if (colorCards[1].length == 1) {
+        } else if (cardList[1].length == 1) {
             var concats = cardList[0].concat(cardList[2]);
-            cards = [colorCards[1][0].cardId, concats[0].cardId];
-        } else if (colorCards[1].length == 0) {
+            cards = [cardList[1][0].cardId, concats[0].cardId];
+        } else if (cardList[1].length == 0) {
             var concats = cardList[0].concat(cardList[2]);
             cards = [concats[0].cardId, concats[1].cardId];
         }
@@ -119,10 +119,10 @@ function dealCards() {
         if (cardList[1].length >=2 ) {
             // 黑色牌数量大于2
             cards = [cardList[1][0].cardId, cardList[1][1].cardId];
-        } else if (colorCards[1].length == 1) {
+        } else if (cardList[1].length == 1) {
             var concats = cardList[0].concat(cardList[2]);
             if (concats.length > 0) {
-                cards = [colorCards[1][0].cardId, concats[0].cardId];
+                cards = [cardList[1][0].cardId, concats[0].cardId];
             }
         }
         if (cards.length == 2) {
@@ -154,7 +154,7 @@ TableGameManager.prototype.onNotifyCompeteworldSweepBattleResult = function (t) 
 }
 var startInterval = setInterval(function () {
     if (!SceneManager.GetInstance().CurrentScene.manager) {
-        // 进入逐鹿天下120关，选将魏延、蜀香、关平
+        // 进入逐鹿天下120关，选将关张、荀彧、李典
         var towerLevelID = 120;
         var o1 = new CompeteWorldBattleGeneralInfo;
         o1.generalID = 299;
