@@ -5,9 +5,9 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
         e.TriggerSpellMulti(t, this.GetSeat(t.SrcSpellCasterSeat))
     var spellClassName = t.Spell.ClassName
     console.info("onTriggerSpell---" + spellClassName)
-    var lastUseParamsFromServer = t.Spell.LastUseParamsFromServer;
     if (spellClassName == 'TalentSkill') {
-        if (lastUseParamsFromServer && lastUseParamsFromServer[0] == 5) {
+        var lastUseParamsFromServer = t.Spell.LastUseParamsFromServer;
+        if (lastUseParamsFromServer && (lastUseParamsFromServer[0] == 1 || lastUseParamsFromServer[0] == 5)) {
             // 友方不触发天赋增伤
             SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_CANCEL);
         } else {
