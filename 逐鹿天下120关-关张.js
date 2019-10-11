@@ -1,4 +1,5 @@
 // 设置必然触发技能及取消
+var shaDuiYou = false; //是否杀队友
 TableGameManager.prototype.onTriggerSpell = function (t, e) {
     this.selfSeatUI && this.selfSeatUI.off(SeatEvent.SWAPSEAT_COMPLETE, this, this.onTriggerSpell),
         e.UpdateCountdownTimer(t.TimeOut),
@@ -15,10 +16,14 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
         }
         return;
     }
-    // 必然触发技能列表
-    var okSkillList = ['JiangLingSkill']
-    if (okSkillList.indexOf(spellClassName) > -1) {
-        SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_OK);
+    // 将灵武圣技能
+    if (spellClassName == 'JiangLingSkill') {
+        if (shaDuiYou) {
+            // 杀队友取消
+            SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_CANCEL);
+        } else {
+            SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_OK);
+        }
         return;
     }
     // 发动业炎
@@ -75,6 +80,7 @@ function dealCards() {
     if (!manager || !manager.seats || !manager.selfSeatUI.cardContainer.SelectContext) {
         return;
     }
+    shaDuiYou = false;
     var selfSeat = SceneManager.GetInstance().CurrentScene.manager.SelfSeat;
     var handCards = selfSeat.handCards;
     // 将手牌分组，0不含杀的红色牌 1不含杀的黑色牌 2所有的杀
@@ -95,6 +101,7 @@ function dealCards() {
 
     if (!fuhunFirst) {
         // 第一次发动父魂杀2号位
+        shaDuiYou = true;
         fuhunFirst = true;
         var cards = [];
         if (cardList[1].length >=2 ) {
@@ -114,6 +121,7 @@ function dealCards() {
     var targetSeatIndex = getTargetSeatIndex();
     // 剩余可出杀不足时杀荀彧补牌
     if (cardList[0].length + (cardList[1].length >= 2 ? 1 : 0) + cardList[2].length <= 1) {
+        shaDuiYou = true;
         targetSeatIndex = 5;
         var cards = [];
         if (cardList[1].length >=2 ) {
