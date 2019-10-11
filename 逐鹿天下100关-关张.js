@@ -191,6 +191,11 @@ TableGameManager.prototype.onNotifyCompeteworldSweepBattleResult = function (t) 
 }
 var startInterval = setInterval(function () {
     if (!SceneManager.GetInstance().CurrentScene.manager) {
+        // 不在逐鹿天下模式下进入
+        if (SceneManager.GetInstance().CurrentScene.sceneName != 'CompeteWorldScene') {
+            RoomControler.GetInstance().EnterMode(ModeIDType.MITZhuLuTianXia);
+            return;
+        }
         // 进入逐鹿天下100关，选将关张、荀彧36、李典411、曹操75
         var towerLevelID = 100;
         var o1 = new CompeteWorldBattleGeneralInfo;

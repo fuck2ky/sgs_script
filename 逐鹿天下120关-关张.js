@@ -58,7 +58,7 @@ LuckCardWindow.prototype.intoEffect = function () {
 function getTargetSeatIndex() {
     var seats = SceneManager.GetInstance().CurrentScene.manager.seats;
     var targetSeatIndex = 2;
-    var excludeNames = ['曹植','荀攸','曹叡','曹冲','满宠','王异'] //威胁程度由小到大
+    var excludeNames = ['曹植', '荀攸', '曹叡', '曹冲', '满宠', '王异'] //威胁程度由小到大
     for (; targetSeatIndex < 5; targetSeatIndex++) {
         if (excludeNames.indexOf(seats[targetSeatIndex].SeatName) == -1) {
             break;
@@ -88,9 +88,9 @@ function dealCards() {
     var selfSeat = SceneManager.GetInstance().CurrentScene.manager.SelfSeat;
     var handCards = selfSeat.handCards;
     // 将手牌分组，0不含杀的红色牌 1不含杀的黑色牌 2所有的杀
-    var cardList = [[],[],[]];
+    var cardList = [[], [], []];
     for (var card of handCards) {
-        if (['杀','火杀','雷杀'].indexOf(card.cardName) != -1) {
+        if (['杀', '火杀', '雷杀'].indexOf(card.cardName) != -1) {
             cardList[2].push(card);
             continue;
         }
@@ -108,7 +108,7 @@ function dealCards() {
         shaDuiYou = true;
         fuhunFirst = true;
         var cards = [];
-        if (cardList[1].length >=2 ) {
+        if (cardList[1].length >= 2) {
             // 黑色牌数量大于2
             cards = [cardList[1][0].cardId, cardList[1][1].cardId];
         } else if (cardList[1].length == 1) {
@@ -128,7 +128,7 @@ function dealCards() {
         shaDuiYou = true;
         targetSeatIndex = 5;
         var cards = [];
-        if (cardList[1].length >=2 ) {
+        if (cardList[1].length >= 2) {
             // 黑色牌数量大于2
             cards = [cardList[1][0].cardId, cardList[1][1].cardId];
         } else if (cardList[1].length == 1) {
@@ -166,7 +166,12 @@ TableGameManager.prototype.onNotifyCompeteworldSweepBattleResult = function (t) 
 }
 var startInterval = setInterval(function () {
     if (!SceneManager.GetInstance().CurrentScene.manager) {
-        // 进入逐鹿天下120关，选将关张、荀彧、李典
+        // 不在逐鹿天下模式下进入
+        if (SceneManager.GetInstance().CurrentScene.sceneName != 'CompeteWorldScene') {
+            RoomControler.GetInstance().EnterMode(ModeIDType.MITZhuLuTianXia);
+            return;
+        }
+        // 120关，选将关张299、荀彧36、李典411
         var towerLevelID = 120;
         var o1 = new CompeteWorldBattleGeneralInfo;
         o1.generalID = 299;

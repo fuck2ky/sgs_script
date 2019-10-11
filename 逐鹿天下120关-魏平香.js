@@ -189,6 +189,11 @@ TableGameManager.prototype.onNotifyCompeteworldSweepBattleResult = function (t) 
 }
 var startInterval = setInterval(function () {
     if (!SceneManager.GetInstance().CurrentScene.manager) {
+        // 不在逐鹿天下模式下进入
+        if (SceneManager.GetInstance().CurrentScene.sceneName != 'CompeteWorldScene') {
+            RoomControler.GetInstance().EnterMode(ModeIDType.MITZhuLuTianXia);
+            return;
+        }
         // 进入逐鹿天下120关，选将魏延、蜀香、关平
         var towerLevelID = 120;
         var o1 = new CompeteWorldBattleGeneralInfo;
