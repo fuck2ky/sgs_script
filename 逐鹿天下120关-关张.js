@@ -32,6 +32,10 @@ TableGameManager.prototype.onTriggerSpell = function (t, e) {
         PubGsCUseSpell.SendUseSpell(0, 988, [targetSeatIndex]);
         return;
     }
+    // 取消将灵连营
+    if (spellClassName == 'LianYingJL') {
+        SceneManager.GetInstance().CurrentScene.SelfSeatUi.buttonBar.ApplyButton(ButtonName.BUTTON_CANCEL);
+    }
     // 非本人取消求桃
     var LastUseTargetFromServer = t.Spell.LastUseTargetFromServer;
     if (spellClassName == 'Tao' && LastUseTargetFromServer && LastUseTargetFromServer[0] != 0) {
