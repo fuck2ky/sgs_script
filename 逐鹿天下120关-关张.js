@@ -189,6 +189,6 @@ var startInterval = setInterval(function () {
         CompeteWorldManager.GetInstance().ReqCompeteWorldBattle(towerLevelID, zhenRong);
         fuhunFirst = false; //重置
     }
-}, 500)
+}, 300)
 // 停止下一局
 // clearInterval(startInterval);
