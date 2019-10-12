@@ -1,11 +1,12 @@
 var modeId = 19; //19国战演武 20欢乐演武
+var seatNum = modeId==20?4:8;//总人数
 // 不在指定模式下先进入
 if (modeId != GameContext.GetModeType() && SceneManager.GetInstance().CurrentScene.sceneName != 'HallScene') {
     ProtoProxy.GetInstance().SendProto(ProtoBufId.CMSG_CREQLOBBYJOIN, {
         modeID: modeId
     })
 }
-
+var count = 0; //执行次数
 var startInterval = setInterval(function () {
     if (SceneManager.GetInstance().CurrentScene.sceneName == 'HallScene') {
         // 开始国战
@@ -26,7 +27,7 @@ var startInterval = setInterval(function () {
         return;
     }
     if (SceneManager.GetInstance().CurrentScene.sceneName == 'TableScene') {
-        if (GameContext.TabbleSeatInfos.count == 8) {
+        if (GameContext.TabbleSeatInfos.count == seatNum) {
             // 开始
             SceneManager.GetInstance().CurrentScene.startHandler();
         } else {
@@ -38,9 +39,15 @@ var startInterval = setInterval(function () {
 
 // 停止下一局
 // clearInterval(startInterval);
-SelectCountryWarGeneralWindow.prototype.addEventListener = function () {
-    // TableGameScene 强退
+
+// TableGameScene 强退
+SelectFunGeneralWindow.prototype.addEventListener = function () {
     SceneManager.GetInstance().CurrentScene.confirmQuitTbale();
+    count++;
+}
+SelectCountryWarGeneralWindow.prototype.addEventListener = function () {
+    SceneManager.GetInstance().CurrentScene.confirmQuitTbale();
+    count++;
 }
 
 var formatDate = function (date) {  
@@ -53,13 +60,14 @@ var formatDate = function (date) {
     var minute = date.getMinutes();  
     minute = minute < 10 ? ('0' + minute) : minute; 
     var second= date.getSeconds();  
-    second = minute < 10 ? ('0' + second) : second;  
+    second = second < 10 ? ('0' + second) : second;  
     return y + '-' + m + '-' + d+' '+h+':'+minute+':'+ second;  
 };
 function show() {
+    GameItemManager.GetInstance().ReqqueryCurrency();
     var success = GameItemManager.GetInstance().GetItemByID(200010).itemNum;
     var fail = GameItemManager.GetInstance().GetItemByID(200011).itemNum;
-    console.info(formatDate(new Date()) + " 胜利箱子个数:" + success + " 失败箱子个数:" + fail);
+    console.info(formatDate(new Date())+" 执行次数:"+count+" 胜利箱子个数:" + success + " 失败箱子个数:" + fail);
 }
 show();
-var showInterval = setInterval(show, 60000);
+var showInterval = setInterval(show, 10000);
