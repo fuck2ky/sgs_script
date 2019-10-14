@@ -26,7 +26,7 @@ ProtoProxy.GetInstance().SendProto = function (t, e) {
 }
 
 // 签到
-DailySignManager.GetInstance().ReqGetSignInReward(1, (new Date()).getDate());
+DailySignManager.GetInstance().ReqGetSignInReward(1, DailySignManager.GetInstance().initSignDate);
 
 // 公会敲鼓3次
 for (var i = 0; i < 3; i++) {
